@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  webpage:
+    build: ./webPage
+    ports:
+      - 5000:80
