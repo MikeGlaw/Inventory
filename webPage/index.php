@@ -57,7 +57,7 @@
 <body>
 
 <div style="overflow-x:auto;">
-  <table>
+  <table id="dbTable">
     <tr>
       <th>Item</th><th>Building</th><th>Room</th><th>Room Location</th>
     </tr>
@@ -77,7 +77,7 @@
       if (mysqli_num_rows($result) > 0) {
           // output data of each row
           while($row = mysqli_fetch_assoc($result)) {
-              echo "<tr id='$rowNum'><td>".$row["Item"]."</td><td>".$row["Building"]."</td><td>". $row["Room"]."</td><td>". $row["Room Location"]."</td></tr>";
+              echo "<tr id='$rowNum'".' onclick="delete()" ><td>'.$row["Item"]."</td><td>".$row["Building"]."</td><td>". $row["Room"]."</td><td>". $row["Room Location"]."</td></tr>";
               $rowNum = $rowNum + 1;
           }
       } else {
@@ -90,6 +90,12 @@
      ?>
   </table>
 </div>
+
+<!-- <script>
+  function delete(){
+    window.alert("progress!");
+  }
+</script> -->
 
 
 <!-- Trigger/Open The Modal -->
@@ -110,9 +116,11 @@
     Room_Location:<br>
     <input type = "text" id="roomLocDB" name = "Room Location" value="roomLocDB" placeholder="ddd">
     <button onclick="addFunc()">Add Item</button>
+
   </div>
 
 </div>
+
 
 <script>
   // Get the modal
@@ -140,6 +148,9 @@
         modal.style.display = "none";
     }
   }
+
+
+
   function addFunc(){
 
     modal.style.display = "none"
