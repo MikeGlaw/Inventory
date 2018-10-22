@@ -62,28 +62,30 @@
       <th>Item</th><th>Building</th><th>Room</th><th>Room Location</th>
     </tr>
     <?php
-    include 'hidden.php';
+      include 'hidden.php';
 
+      $rowNum = 1;
+      $conn = new mysqli($servername, $username, $password,$dbName);
 
-    $conn = new mysqli($servername, $username, $password,$dbName);
+      if ($conn->connect_error){
+        die("Connection failed: " . $conn->connect_error);
+      }
 
-    if ($conn->connect_error){
-      die("Connection failed: " . $conn->connect_error);
-    }
+      $sql = "SELECT * FROM inventory.MCSI";
+      $result = mysqli_query($conn,$sql);
 
-    $sql = "SELECT * FROM inventory.MCSI";
-    $result = mysqli_query($conn,$sql);
+      if (mysqli_num_rows($result) > 0) {
+          // output data of each row
+          while($row = mysqli_fetch_assoc($result)) {
+              echo "<tr id='$rowNum'><td>".$row["Item"]."</td><td>".$row["Building"]."</td><td>". $row["Room"]."</td><td>". $row["Room Location"]."</td></tr>";
+              $rowNum = $rowNum + 1;
+          }
+      } else {
+          echo "0 results";
+      }
 
-    if (mysqli_num_rows($result) > 0) {
-        // output data of each row
-        while($row = mysqli_fetch_assoc($result)) {
-            echo "<tr><td>".$row["Item"]."</td><td>".$row["Building"]."</td><td>". $row["Room"]."</td><td>". $row["Room Location"]."</td></tr>";
-        }
-    } else {
-        echo "0 results";
-    }
-
-    mysqli_close($conn);
+      $rowNum=0;
+      mysqli_close($conn);
 
      ?>
   </table>
@@ -148,7 +150,7 @@
 
 
     xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET","addItems.php?q="+itemDB,true);
+    xmlhttp.open("GET","addItems.php?q="+itemDB+"~"+bldDB+"~"+rmDB+"~"+roomLocDB,true);
     xmlhttp.send();
 
   }
